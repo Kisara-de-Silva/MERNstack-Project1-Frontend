@@ -5,16 +5,23 @@ import UsersTable from "./UsersTable";
 const users = [
     {
         id: 1,
-        name: 'Perera',
+        name: 'Perera'
+    },
 
+    {
         id: 2,
-        name: 'Silva'
+        name: 'Silva',
     }
 ];
 
 const Users = () => {
     return(
-        <Box>
+        <Box
+            sx={{
+                width: 'calc(100% - 100px)',
+                margin: 'auto',
+                marginTop: '100px',
+            }}>
             <UserForm />
             <UsersTable rows={users} />
         </Box>

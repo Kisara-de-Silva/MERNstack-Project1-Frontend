@@ -1,7 +1,8 @@
-import { Button, TableBody, TableCell, TableContainer, TableRow } from "@mui/material";
+import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 
 const UsersTable = ({ rows }) => {
-    <TableContainer component={Paper}>  
+    return (
+        <TableContainer component={Paper}>  
         <Table>
             <TableHead>
                 <TableRow>
@@ -13,7 +14,7 @@ const UsersTable = ({ rows }) => {
 
             <TableBody>
                 {
-                    rows.map(rows => (
+                    rows.length > 0 ? rows.map(rows => (
                         <TableRow key={rows.id} sx={{ '&:last-child td, &:last-child th' : {border: 0} }}>
                             <TableCell component='th' scope='row'> {rows.id} </TableCell>
                             <TableCell component='th' scope='row'> {rows.name} </TableCell>
@@ -33,10 +34,16 @@ const UsersTable = ({ rows }) => {
                                 </Button>
                             </TableCell>
                         </TableRow>
-                )}    
+                    )) : (
+                        <TableRow sx={{ '&:last-child td, &:last-child th' : { border: 0}}}>
+                            <TableCell component='th' scope='row'> No Data </TableCell>
+                        </TableRow>
+                    )
+                }
             </TableBody>
         </Table>
-    </TableContainer>       
+    </TableContainer>
+    )       
 }
 
 export default UsersTable;
