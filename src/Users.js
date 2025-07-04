@@ -1,14 +1,14 @@
 import { Box } from "@mui/material";
 import UserForm from "./UserForm";
 import UsersTable from "./UsersTable";
-import  axios, { Axios }  from "axios";
+import  axios from "axios";
 import { useEffect, useState } from "react";
 
 const Users = () => {
     const [users, setUsers] = useState([]);
     const [submitted, setSubmitted] = useState(false);
     const [selectedUser, setSelectedUser] = useState({});
-    const [isEdit, setiIsEdit] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
 
     useEffect(() => {
         getUsers();
@@ -38,8 +38,8 @@ const Users = () => {
         } catch (error) {
             console.error("Axios error: ", error);
         } finally {
-            setSubmitted(false),
-            isEdit(false);
+            setSubmitted(false);
+            setIsEdit(false);
         }
     }
 
@@ -51,7 +51,7 @@ const Users = () => {
             name: data.name
         }
 
-        Axios.put(`http://localhost:3001/api/users`, payload)
+        axios.put(`http://localhost:3001/api/users`, payload)
             .then(() => {
                 getUsers();
                 setSubmitted(false);
@@ -64,7 +64,7 @@ const Users = () => {
 
     const deleteUser = (data) => {
 
-        Axios.delete(`http://localhost:3001/api/users`, data)
+        axios.delete(`http://localhost:3001/api/users`, {data: { id: data.id }})
             .then(() => {
                 getUsers();
             })
