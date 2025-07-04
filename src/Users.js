@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 const Users = () => {
     const [users, setUsers] = useState([]);
     const [submitted, setSubmitted] = useState(false);
+    const [selectedUser, setSelectedUser] = useState({});
+    const [isEdit, setiIsEdit] = useState(false);
 
     useEffect(() => {
         getUsers();
@@ -36,7 +38,8 @@ const Users = () => {
         } catch (error) {
             console.error("Axios error: ", error);
         } finally {
-            setSubmitted(false);
+            setSubmitted(false),
+            isEdit(false);
         }
     }
 
@@ -59,6 +62,17 @@ const Users = () => {
             });
     }
 
+    const deleteUser = (data) => {
+
+        Axios.delete(`http://localhost:3001/api/users`, data)
+            .then(() => {
+                getUsers();
+            })
+            .catch(error => {
+                console.error("Axios error: ", error);
+            });
+    }
+
     return(
         <Box
             sx={{
@@ -68,9 +82,20 @@ const Users = () => {
             }}>
             <UserForm 
                 addUser={addUser} 
+                updateUser={updateUser}
                 submitted={submitted}
+                data={selectedUser}
+                isEdit={isEdit}
             />
-            <UsersTable rows={users} />
+            <UsersTable 
+                rows={users}
+                selectedUser={data => {
+                    setSelectedUser(data);
+                    setIsEdit(true);
+                }} 
+                deleteUser={data => window.confirm('Are you sure?') 
+                    && deleteUser(data)}
+            />
         </Box>
         
     );
